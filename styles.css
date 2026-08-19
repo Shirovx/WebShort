@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+/* Pagina Principal */
+body {
+font-family: 'Inter', sans-serif;
+}
+
+.custom-logo {
+color: #485fc7 !important;
+letter-spacing: -0.5px;
+font-weight: 700;
+}
+
+.upload-zone {
+border: 2px dashed #b5b5b5;
+border-radius: 8px;
+padding: 4rem 2rem;
+background-color: #fafafa;
+cursor: pointer;
+transition: all 0.2s ease;
+max-width: 600px;
+margin: 0 auto;
+}
+
+.upload-zone:hover {
+background-color: #f5f5f5;
+border-color: #485fc7;
+}
+
+.video-preview-9-16 {
+aspect-ratio: 9 / 16;
+background-color: #000;
+border: 1px solid #dbdbdb;
+border-radius: 8px;
+width: 100%;
+max-width: 400px;
+margin: 0 auto;
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+overflow: hidden;
+box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.is-dragging {
+background-color: #eff1fa !important;
+border-color: #485fc7 !important;
+}
+
+/* Utilidades Globales */
+.border-light { border: 1px solid #e5e7eb; }
+.border-active { border: 1px solid #485fc7 !important; }
+.h-100 { height: 100%; }
+.flex-grow-1 { flex-grow: 1; }
+
+/* Custom Navbar (Header Horizontal) */
+.custom-navbar { 
+    border-bottom: 1px solid #f3f4f6; 
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.custom-menu-center { flex-grow: 1; justify-content: center; }
+.custom-menu-right { justify-content: flex-end; }
+@media (max-width: 1023px) {
+  .custom-menu-center, .custom-menu-right { justify-content: flex-start; }
+}
+
+/* Modificación de la zona de subida (Botón central) */
+.upload-zone {
+background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+border: 1px solid #e5e7eb;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Cajas grises falsas para simular la interfaz en "Cómo funciona" */
+.feature-mockup {
+background-color: #e5e7eb;
+border-radius: 6px;
+width: 100%;
+height: 140px;
+}
+.mockup-vertical {
+width: 80px;
+margin: 0 auto;
+}
+
+/* Transiciones para las tarjetas de Features */
+.feature-grid-card {
+border: 1px solid #f3f4f6;
+transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.feature-grid-card:hover {
+border-color: #d1d5db;
+transform: translateY(-2px);
+}
+
+
+/* Login y Register */
+/* Utilidades para centrar la vista en pantallas de autenticación */
+.has-min-height-100vh {
+min-height: 100vh;
+}
+.is-fullwidth {
+width: 100%;
+}
+
+/* Contenedor central de autenticación */
+.auth-container {
+max-width: 380px;
+margin: 0 auto;
+}
+
+/* Botón de Google con sombra suave */
+.auth-google-btn {
+border: 1px solid #e2e8f0;
+color: #363636;
+font-weight: 600;
+transition: background-color 0.2s ease;
+}
+.auth-google-btn:hover {
+background-color: #f8f9fa;
+}
+
+/* Divisor "o continuar con" con líneas laterales */
+.auth-divider {
+display: flex;
+align-items: center;
+text-align: center;
+margin: 1.5rem 0;
+color: #9ca3af;
+font-size: 0.85rem;
+}
+.auth-divider::before,
+.auth-divider::after {
+content: '';
+flex: 1;
+border-bottom: 1px solid #e5e7eb;
+}
+.auth-divider::before {
+margin-right: .75em;
+}
+.auth-divider::after {
+margin-left: .75em;
+}
+
+/* Entradas de texto estilo limpio */
+.auth-input {
+background-color: #ffffff;
+border: 1px solid #d1d5db;
+border-radius: 6px;
+box-shadow: none;
+transition: border-color 0.2s ease;
+}
+.auth-input:focus {
+border-color: #485fc7;
+box-shadow: 0 0 0 0.125em rgba(72, 95, 199, 0.25);
+}
+
+/* Botón principal de acción */
+.auth-submit-btn {
+font-weight: 600;
+border-radius: 6px;
+/* Simulación del gradiente original pero en tonos azules corporativos */
+background: linear-gradient(135deg, #485fc7 0%, #3e8ed0 100%);
+border: none;
+}
+.auth-submit-btn:hover {
+opacity: 0.9;
+}
+
+
+/* Animación para los enlaces del Header */
+.custom-menu-center .navbar-item {
+transition: color 0.3s ease, transform 0.3s ease;
+}
+.custom-menu-center .navbar-item:hover {
+color: #485fc7 !important;
+transform: translateY(-2px);
+}
+
+/* Animaciones para las tarjetas de Pasos y Features */
+.step-card, .feature-grid-card {
+border: 2px solid transparent;
+transition: all 0.3s ease;
+}
+.step-card:hover, .feature-grid-card:hover {
+border-color: #485fc7;
+transform: translateY(-5px);
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Animaciones para la tabla de Precios  */
+.pricing-card {
+border: 2px solid transparent;
+transition: all 0.3s ease;
+}
+.pricing-card:hover {
+border-color: #485fc7;
+transform: translateY(-5px);
+box-shadow: 0 10px 25px rgba(72, 95, 199, 0.1);
+}
+.pricing-card:hover .price-btn {
+background-color: #485fc7 !important;
+color: #fff !important;
+}
+
+/* Botones del Switch Mensual/Anual */
+.pricing-toggle-container {
+background-color: #f5f5f5;
+display: inline-flex;
+border-radius: 9999px;
+padding: 4px;
+}
+
+/* Estilos de bordes para las Preguntas Frecuentes */
+.custom-faq-border {
+border: 1px solid #e5e7eb;
+transition: border-color 0.3s ease;
+}
+.custom-faq-border:hover {
+border-color: #485fc7;
+}
