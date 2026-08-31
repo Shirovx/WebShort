@@ -1,8 +1,149 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-/* Pagina Principal */
-body {
-font-family: 'Inter', sans-serif;
+
+/* --- SISTEMA DE TEMAS (LIGHT / DARK) --- */
+:root {
+  --bg-color: #fafafa;
+  --text-primary: #363636;
+  --text-secondary: #7a7a7a;
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb;
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --upload-zone-bg: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+  --upload-zone-hover: #f5f5f5;
+  --feature-mockup: #e5e7eb;
+  --workspace-bg: #f0f0f0; /* Fondo del workspace modo claro */
 }
+
+[data-theme="dark"] {
+  --bg-color: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-secondary: #b5b5b5;
+  --card-bg: #141414;
+  --border-color: #2a2a2a;
+  --nav-bg: rgba(10, 10, 10, 0.95);
+  --upload-zone-bg: linear-gradient(180deg, #141414 0%, #0f0f0f 100%);
+  --upload-zone-hover: #1a1a1a;
+  --feature-mockup: #222;
+  --workspace-bg: #0a0a0a; /* Fondo del workspace modo oscuro */
+}
+
+body, 
+body.has-background-black, 
+body.has-background-light, 
+.section.has-background-white, 
+.section.has-background-light, 
+.hero.is-light,
+.workspace-body {
+    background-color: var(--bg-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.title, .subtitle.has-text-dark, .has-text-dark, .content h3 {
+    color: var(--text-primary) !important;
+}
+
+.subtitle.has-text-grey, .has-text-grey, .content p, .content li {
+    color: var(--text-secondary) !important;
+}
+
+.box, 
+.feature-grid-card, 
+.step-card, 
+.pricing-card, 
+.clip-card, 
+.dash-video-card, 
+.has-background-dark-card, 
+.detecting-card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+
+.navbar.custom-navbar, .navbar.is-black {
+    background-color: var(--nav-bg) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+
+[data-theme="light"] .dash-video-card .has-text-white, 
+[data-theme="light"] .detecting-card .has-text-white,
+[data-theme="light"] .title.has-text-white {
+    color: var(--text-primary) !important;
+}
+
+
+.step-card:hover, 
+.feature-grid-card:hover, 
+.pricing-card:hover, 
+.custom-faq-border:hover, 
+.clip-card:hover,
+.dash-video-card:hover {
+    border-color: #485fc7 !important;
+}
+
+.custom-navbar, .navbar.is-black {
+    background-color: var(--nav-bg) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.upload-zone, .dash-upload-zone {
+    background: var(--upload-zone-bg) !important;
+    border: 1px dashed var(--border-color) !important;
+}
+.upload-zone:hover, .dash-upload-zone:hover {
+    background-color: var(--upload-zone-hover) !important;
+}
+
+.feature-mockup {
+    background-color: var(--feature-mockup) !important;
+}
+
+/* Modificadores para el navbar y footer en modo oscuro */
+[data-theme="dark"] .navbar-item.has-text-grey-dark, 
+[data-theme="dark"] .navbar-link.has-text-grey-dark,
+[data-theme="dark"] .navbar-brand .is-size-7.has-text-grey {
+    color: var(--text-secondary) !important;
+}
+[data-theme="dark"] .navbar-item.has-text-grey-dark:hover {
+    color: #485fc7 !important;
+}
+[data-theme="dark"] .footer.has-background-white {
+    background-color: var(--bg-color) !important;
+    border-top-color: var(--border-color) !important;
+}
+[data-theme="dark"] .footer .has-text-dark {
+    color: var(--text-primary) !important;
+}
+[data-theme="dark"] .hero.is-link {
+    background-color: #1a1a1a !important; 
+}
+
+/* --- ESTILOS PARA AUTH (LOGIN/REGISTER) EN MODO OSCURO --- */
+.position-relative {
+    position: relative;
+}
+
+.auth-theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+}
+
+[data-theme="dark"] .auth-input {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .auth-google-btn {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+[data-theme="dark"] .auth-google-btn:hover {
+    background-color: #1f1f1f;
+}
+
 
 .custom-logo {
 color: #485fc7 !important;
@@ -224,3 +365,243 @@ transition: border-color 0.3s ease;
 .custom-faq-border:hover {
 border-color: #485fc7;
 }
+
+/* --- LÓGICA DE CARGA EN EL INDEX --- */
+@keyframes spin { 100% { transform: rotate(360deg); } }
+.hover-danger:hover { color: #f14668 !important; }
+
+/* --- ESTILOS DEL DASHBOARD OSCURO --- */
+.border-bottom-dark { border-bottom: 1px solid #2a2a2a; }
+.has-background-dark-card { background-color: #1a1a1a; }
+.is-truncated { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Avatar simulado */
+.profile-circle {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+/* Zona de Carga en Dashboard */
+.dash-upload-zone {
+    border: 1px dashed #4a4a4a;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+.dash-upload-zone:hover {
+    border-color: #00d1b2; 
+    background-color: rgba(0, 209, 178, 0.05);
+    box-shadow: 0 0 15px rgba(0, 209, 178, 0.1);
+}
+.dash-upload-zone:hover svg {
+    stroke: #00d1b2;
+}
+
+/* Tarjetas de Videos en el Dashboard */
+.dash-video-card {
+    border-radius: 12px;
+    border: 1px solid #333;
+    overflow: hidden;
+    height: 100%;
+    min-height: 200px;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.dash-video-card:hover {
+    transform: translateY(-2px);
+    border-color: #4a4a4a;
+}
+
+/* Tarjeta 1: Detectando (Puntos Animados) */
+.detecting-card {
+    background-color: #111;
+    border: 1px solid #222;
+}
+.loader-dots {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background-color: #00d1b2;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0.5; }
+}
+
+/* Tarjeta 2: Video Listo y Botón Eliminar (Hover) */
+.video-thumbnail {
+    height: 120px;
+    position: relative;
+    background-image: url('https://via.placeholder.com/600x300/2a2a2a/ffffff?text=Video+Thumbnail');
+    background-size: cover;
+    background-position: center;
+}
+.badge-clips {
+    position: absolute;
+    bottom: 10px; left: 10px;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+.delete-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(0,0,0,0.6);
+    border: none;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    opacity: 0; /* Oculto por defecto */
+    transition: opacity 0.2s, background 0.2s;
+    cursor: pointer;
+}
+
+.dash-video-card:hover .delete-btn {
+    opacity: 1; 
+}
+.delete-btn:hover {
+    background: #f14668; 
+}
+
+/* --- ESTILOS DEL WORKSPACE --- */
+.workspace-body {
+    height: 100vh;
+    overflow: hidden; /* Evita el scroll en toda la página */
+}
+
+.workspace-container {
+    height: calc(100vh - 53px); /* Resta la altura del navbar */
+    overflow: hidden;
+}
+
+.borderless-btn {
+    border: none !important;
+}
+
+/* Contenedor del video */
+.video-player-wrapper {
+    width: 100%;
+    background-color: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Sombras para separarlo del fondo negro */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+}
+.workspace-video {
+    width: 100%;
+    max-height: 70vh;
+    outline: none;
+}
+
+/* Sidebar derecha con scroll independiente */
+.workspace-sidebar {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 2rem;
+}
+/* Estilizar el scrollbar para Webkit (Chrome/Safari) */
+.workspace-sidebar::-webkit-scrollbar { width: 8px; }
+.workspace-sidebar::-webkit-scrollbar-track { background: #111; }
+.workspace-sidebar::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+.workspace-sidebar::-webkit-scrollbar-thumb:hover { background: #555; }
+
+/* Botones y utilidades Workspace */
+.purple-btn {
+    background-color: #6a4cff;
+    border: none;
+    color: white;
+    transition: opacity 0.2s;
+}
+.purple-btn:hover { background-color: #6a4cff; color: white; opacity: 0.9; }
+
+.custom-dark-input {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    color: white;
+}
+.custom-dark-input::placeholder { color: #555; }
+.custom-dark-input:focus { border-color: #6a4cff; box-shadow: none; }
+
+.border-light-dark { border: 1px solid #333 !important; }
+
+/* Tarjetas de Clips */
+.clip-card {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    transition: border-color 0.2s;
+}
+.clip-card:hover { border-color: #6a4cff; }
+
+.clip-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.btn-clip-format {
+    background-color: transparent;
+    border: 1px solid #444;
+    color: #aaa;
+    border-radius: 6px;
+    padding: 4px 10px;
+}
+.btn-clip-format:hover {
+    background-color: #2a2a2a;
+    color: #fff;
+    border-color: #666;
+}
+.gap-2 { gap: 8px; }
+
+/* Iconos pequeños laterales */
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s;
+}
+.icon-btn:hover { color: #fff; }
+
+/* Botón Añadir Clip */
+.dashed-add-btn {
+    background-color: transparent;
+    border: 1px dashed #444;
+    color: #888;
+    transition: all 0.2s;
+}
+.dashed-add-btn:hover {
+    background-color: rgba(255,255,255,0.02);
+    border-color: #6a4cff;
+    color: #6a4cff;
+}
+
+/* Emojis Feedback */
+.emoji-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: transform 0.2s;
+}
+.emoji-btn:hover { transform: scale(1.2); }

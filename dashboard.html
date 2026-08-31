@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Web Short</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="styles.css">
+     <script>
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
+</head>
+<body class="has-background-black has-text-white" style="min-height: 100vh;">
+<!-- NAVBAR DASHBOARD -->
+<nav class="navbar is-transparent py-2 px-4 custom-navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand is-align-items-center">
+        <a class="navbar-item title is-5 custom-logo mb-0" href="index.html">
+            <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#485fc7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            Web Short
+        </a>
+        <span class="has-text-grey-dark mx-2">|</span>
+        <span class="is-size-7 has-text-grey">1 long video left</span>
+        <a href="index.html#pricing" class="is-size-7 has-text-link ml-2">Upgrade</a>
+    </div>
+
+    <!-- MENÚ DERECHO  -->
+    <div class="navbar-end is-align-items-center">
+        <div class="navbar-item">
+            <button id="themeToggle" class="button is-ghost is-small has-text-grey" title="Cambiar tema">
+                <svg class="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="theme-icon-dark is-hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+        
+        <!-- Menú de Idiomas -->
+        <div class="navbar-item has-dropdown is-hoverable mr-2">
+            <a class="navbar-link is-arrowless has-text-grey-dark is-size-7 has-text-weight-semibold" id="languageSelector">
+                ES <span class="ml-1">▼</span>
+            </a>
+            <div class="navbar-dropdown is-right">
+                <a class="navbar-item is-size-7" data-lang="es">Español</a>
+                <a class="navbar-item is-size-7" data-lang="en">English</a>
+            </div>
+        </div>
+
+        <!-- Avatar -->
+        <div class="navbar-item">
+            <div class="profile-circle"></div>
+        </div>
+    </div>
+</nav>
+
+
+    <section class="section mt-6"> 
+        <div class="container is-max-desktop has-text-centered">
+            <h1 class="title is-2 has-text-dark mb-4">Upload your video</h1> 
+            <p class="subtitle is-5 has-text-grey mb-6">AI will detect the best moments for clipping</p>
+                <!-- ... zona de subida ... -->
+            <div class="dash-upload-zone mt-5" id="dashUploadZone">
+                <svg class="mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a7a7a" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <p class="has-text-white is-size-6 mb-1">Click or drag to upload a video</p>
+                <p class="is-size-7 has-text-grey">MP4, MOV, WEBM up to 3GB</p>
+            </div>
+            
+            <p class="is-size-7 has-text-grey mt-3">1 long video left. <a href="#" class="has-text-link">View plans</a></p>
+        </div>
+    </section>
+
+    <!-- TUS VIDEOS (Grid) -->
+    <section class="section pt-0">
+        <div class="container is-max-desktop">
+            <h2 class="title is-5 has-text-dark mb-4">Your Videos</h2>
+
+            <div class="columns is-multiline">
+                
+                <!-- Tarjeta 1: Detectando Clips (Imagen 3) -->
+                <div class="column is-6">
+                    <div class="dash-video-card detecting-card is-flex is-flex-direction-column is-justify-content-space-between p-4">
+                        <div class="has-text-centered mt-4">
+                            <p class="is-size-7 has-text-grey-light px-4">
+                                💡 Creators who post daily grow 10x faster. We're finding your next week of posts.
+                            </p>
+                        </div>
+                        <div class="is-flex is-align-items-center">
+                            <span class="loader-dots mr-2"></span>
+                            <span class="is-size-7 has-text-grey-light">Detecting clips...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2: Video Listo (Imagen 4) -->
+                <div class="column is-6">
+                    <div class="dash-video-card ready-card" onclick="window.location.href='workspace.html'">
+                        <!-- Imagen de fondo simulada -->
+                        <div class="video-thumbnail" style="background-color: #2a2a2a;">
+                            <span class="badge-clips">2 clips</span>
+                            <!-- Botón Eliminar (Aparece en Hover) -->
+                            <button class="delete-btn" title="Delete video">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                        <div class="p-3 has-background-dark-card">
+                            <div class="is-flex is-justify-content-space-between is-align-items-center mb-1">
+                                <span class="is-size-7 has-text-grey">Today</span>
+                                <span class="is-size-7 has-text-warning">Expires in 2d 23h</span>
+                            </div>
+                            <p class="has-text-weight-bold has-text-white is-size-6 is-truncated">Gratitude and Repetition of the Word Now</p>
+                            <p class="is-size-7 has-text-grey mt-1">2 clips detected</p>
+                            <a href="#" class="is-size-7 has-text-link mt-2 is-block">Keep up to 90 days →</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>

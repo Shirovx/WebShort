@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace - Web Short</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="styles.css">
+        <script>
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
+</head>
+<body class="has-background-black has-text-white workspace-body">
+
+    <!-- NAVBAR WORKSPACE -->
+    <nav class="navbar is-black py-2 px-3 border-bottom-dark" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand is-align-items-center">
+            <!-- Botón de regreso al Dashboard -->
+         <a href="dashboard.html" class="button is-ghost has-text-dark is-medium borderless-btn" title="Volver al Dashboard">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
+            <span class="has-text-white is-size-6 ml-2 has-text-weight-semibold is-truncated" style="max-width: 300px;">Gratitude and Repetition of the Word Now</span>
+        </div>
+
+        <div class="navbar-end is-align-items-center custom-menu-right">
+            
+            <!-- Botón de Toggle Theme -->
+            <div class="navbar-item">
+                <button id="themeToggle" class="button is-ghost is-small has-text-grey" title="Cambiar tema">
+                    <svg class="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg class="theme-icon-dark is-hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+            </div>
+        
+        <div class="navbar-end is-align-items-center">
+            <div class="navbar-item">
+                <div class="profile-circle"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ÁREA DE TRABAJO -->
+    <section class="section p-4 workspace-container">
+        <div class="columns is-variable is-6 h-100">
+            
+            <!-- COLUMNA IZQUIERDA: Reproductor de Video -->
+            <div class="column is-7 is-8-widescreen is-flex is-flex-direction-column">
+                <div class="video-player-wrapper mt-4">
+                    <!-- Video de demostración -->
+                    <video controls class="workspace-video">
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA: Lista de Clips -->
+
+<div class="column is-5 is-4-widescreen workspace-sidebar pr-2">
+    
+    <!-- Cabecera de Clips -->
+    <div class="is-flex is-justify-content-space-between is-align-items-center mb-5 mt-4">
+        <h2 class="title is-5 has-text-dark mb-0">Clips Generados <span class="has-text-grey has-text-weight-normal">(2)</span></h2>
+        <button class="button is-small is-link is-outlined">
+            <svg class="mr-2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Exportar todos
+        </button>
+    </div>
+
+    <!-- Lista de Clips -->
+    <div class="clip-list">
+        
+        <!-- Clip 1 -->
+        <div class="box clip-card p-4 mb-3 has-background-white">
+            <div class="is-flex is-justify-content-space-between">
+                <div class="is-flex">
+                    <span class="clip-number">1</span>
+                    <div>
+                        <p class="has-text-dark has-text-weight-semibold is-size-6 mb-1">Corte 01 - Jugada Destacada</p>
+                        <p class="is-size-7 has-text-grey mb-3">
+                            <span class="has-text-weight-bold">0:03</span> → <span class="has-text-weight-bold">0:40</span> <span class="ml-1">(37s)</span>
+                        </p>
+                        <div class="is-flex gap-2">
+                            <button class="button is-small btn-clip-format is-link is-light">
+                                Horizontal <svg class="ml-1" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="10" rx="2" ry="2"/></svg>
+                            </button>
+                            <button class="button is-small btn-clip-format is-white border-light">
+                                Vertical <svg class="ml-1" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2" ry="2"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="is-flex is-flex-direction-column is-align-items-center">
+                    <button class="icon-btn mb-2 has-text-grey hover-danger" title="Eliminar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                </div></div></div></div>
+
+            <!-- Botón Añadir Clip Manual -->
+            <button class="button is-fullwidth dashed-add-btn mt-5 has-text-link">
+                + Añadir corte manual
+            </button>
+        </div>
+
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,6 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- LÓGICA DEL ACORDEÓN DE PREGUNTAS FRECUENTES ---
+document.addEventListener('DOMContentLoaded', () => {    
+// --- LÓGICA DEL ACORDEÓN DE PREGUNTAS FRECUENTES ---
     const faqItems = document.querySelectorAll('.faq-item');
 
     faqItems.forEach(item => {
@@ -68,3 +67,119 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- LÓGICA DE SUBIDA DE VIDEO (Simulación) ---
+    const uploadZone = document.getElementById('uploadZone');
+    const uploadInitial = document.getElementById('uploadInitial');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const cancelUpload = document.getElementById('cancelUpload');
+    
+    let uploadInterval;
+
+    function startUploadSimulation() {
+        if(!uploadInitial || !uploadProgress) return;
+        
+        // Cambiar interfaces
+        uploadInitial.classList.add('is-hidden');
+        uploadProgress.classList.remove('is-hidden');
+        uploadZone.style.cursor = 'default';
+        
+        let progress = 0;
+        uploadInterval = setInterval(() => {
+            progress += 4; // Velocidad de carga
+            if (progress > 100) progress = 100;
+            
+            progressBar.value = progress;
+            progressText.textContent = `${progress}%`;
+            
+            if(progress >= 100) {
+                clearInterval(uploadInterval);
+                // Redirigir al dashboard tras medio segundo de llegar al 100%
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 500);
+            }
+        }, 100);
+    }
+
+    if (uploadZone) {
+        // Al arrastrar
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('is-dragging');
+        });
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('is-dragging');
+        });
+        // Al soltar el archivo
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('is-dragging');
+            startUploadSimulation();
+        });
+        // Al hacer clic
+        uploadZone.addEventListener('click', (e) => {
+            // Evitamos que inicie si le dieron click a "Cancelar"
+            if(e.target.id === 'cancelUpload' || uploadProgress.classList.contains('is-hidden') === false) return;
+            startUploadSimulation();
+        });
+    }
+
+    // Lógica para el botón de Cancelar
+    if (cancelUpload) {
+        cancelUpload.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evita que dispare el clic de la zona de subida
+            clearInterval(uploadInterval);
+            // Restaurar interfaz
+            uploadInitial.classList.remove('is-hidden');
+            uploadProgress.classList.add('is-hidden');
+            progressBar.value = 0;
+            progressText.textContent = '0%';
+            uploadZone.style.cursor = 'pointer';
+        });
+    }
+
+    // --- LÓGICA DEL WORKSPACE ---
+    const closeFeedbackBtn = document.getElementById('closeFeedback');
+    const feedbackBox = document.getElementById('feedbackBox');
+
+    if (closeFeedbackBtn && feedbackBox) {
+        closeFeedbackBtn.addEventListener('click', () => {
+            // Oculta la caja de feedback con una pequeña transición
+            feedbackBox.style.opacity = '0';
+            setTimeout(() => {
+                feedbackBox.style.display = 'none';
+            }, 300);
+        });
+    }
+
+
+// --- LÓGICA DE DARK / LIGHT MODE ---
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const iconsLight = document.querySelectorAll('.theme-icon-light');
+    const iconsDark = document.querySelectorAll('.theme-icon-dark');
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        if (theme === 'dark') {
+            iconsLight.forEach(icon => icon.classList.add('is-hidden'));
+            iconsDark.forEach(icon => icon.classList.remove('is-hidden'));
+        } else {
+            iconsDark.forEach(icon => icon.classList.add('is-hidden'));
+            iconsLight.forEach(icon => icon.classList.remove('is-hidden'));
+        }
+    }
+
+    const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(currentTheme);
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        });
+    }
