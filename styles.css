@@ -605,3 +605,42 @@ border-color: #485fc7;
     transition: transform 0.2s;
 }
 .emoji-btn:hover { transform: scale(1.2); }
+
+
+/* --- MENÚ DESPLEGABLE DE USUARIO (AVATAR) --- */
+.avatar-btn {
+    border-radius: 50%;
+    padding: 0;
+    height: 36px;
+    width: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+.avatar-btn:hover {
+    border-color: var(--border-color);
+}
+.avatar-dropdown-content {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    min-width: 220px;
+}
+
+.avatar-dropdown-content .dropdown-item {
+    color: var(--text-primary);
+    transition: background-color 0.2s ease;
+}
+.avatar-dropdown-content a.dropdown-item:hover {
+    background-color: var(--upload-zone-hover);
+    color: #485fc7;
+}
+.avatar-dropdown-divider {
+    background-color: var(--border-color);
+    border: none;
+    height: 1px;
+    margin: 0.5rem 0;
+}

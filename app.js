@@ -183,3 +183,178 @@ document.addEventListener('DOMContentLoaded', () => {
             applyTheme(newTheme);
         });
     }
+
+    // --- LÓGICA DEL MENÚ DESPLEGABLE DE USUARIO ---
+    const userMenuDropdown = document.getElementById('userMenuDropdown');
+    const userMenuEmail = document.getElementById('userMenuEmail');
+
+    if (userMenuDropdown) {
+        const trigger = userMenuDropdown.querySelector('.dropdown-trigger button');
+        
+        // 1. Abrir/Cerrar al hacer clic en el botón
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userMenuDropdown.classList.toggle('is-active');
+        });
+
+        // 2. Cerrar el menú si haces clic en cualquier otro lado de la pantalla
+        document.addEventListener('click', (e) => {
+            if (!userMenuDropdown.contains(e.target)) {
+                userMenuDropdown.classList.remove('is-active');
+            }
+        });
+
+        // 3. Extraer el correo del Token de sesión y mostrarlo
+        const token = localStorage.getItem('token');
+        if (token && userMenuEmail) {
+            try {
+                
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                userMenuEmail.textContent = payload.email || 'Usuario';
+            } catch (error) {
+                console.error('Error al leer el token:', error);
+                userMenuEmail.textContent = 'Usuario';
+            }
+        }
+    }
+    
+    // --- LÓGICA DE CONEXIÓN AL BACKEND (De prueba) ---
+    function checkBackendConnection() {
+        console.log('Verificando conexión con el backend...');
+        
+        // Hacemos una petición a la ruta que acabamos de crear en Node
+        fetch('http://localhost:5000/api/status')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('¡Conexión exitosa!');
+                console.log('Mensaje del servidor:', data.message);
+            })
+            .catch(error => {
+                console.error('No se pudo conectar al backend');
+            });
+    }
+
+    // Ejecutamos la verificación al cargar la página
+    checkBackendConnection();
+
+
+
+    // --- LÓGICA PARA EL FORMULARIO DE REGISTRO ---
+    const registerForm = document.querySelector('form'); // Busca el formulario
+    
+    // Verificamos si estamos en la página de registro
+    if (window.location.pathname.includes('register.html') && registerForm) {
+        
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Evita que la página recargue
+
+            // Obtenemos los valores de los inputs
+            const inputs = registerForm.querySelectorAll('input');
+            const email = inputs[0].value;
+            const password = inputs[1].value;
+            const confirmPassword = inputs[2].value;
+
+            // Validación básica
+            if (password !== confirmPassword) {
+                alert('Las contraseñas no coinciden');
+                return;
+            }
+
+            try {
+                // Hacemos el request a nuestro servidor
+                const response = await fetch('http://localhost:5000/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('¡' + data.message + ' Ahora inicia sesión.');
+                    window.location.href = 'login.html'; // Lo mandamos al login
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('No se pudo conectar con el servidor.');
+            }
+        });
+    }
+      // --- LÓGICA PARA EL FORMULARIO DE LOGIN ---
+    
+    if (window.location.href.includes('login.html')) {
+        console.log('Modo Login detectado');
+        const loginForm = document.querySelector('form');
+        
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); 
+                console.log('Botón presionado, enviando datos...');
+
+                const inputs = loginForm.querySelectorAll('input');
+                const email = inputs[0].value;
+                const password = inputs[1].value;
+
+                console.log(`Intentando entrar con: ${email}`); // Para ver si está atrapando los textos
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        console.log('Login exitoso, guardando token...');
+                        localStorage.setItem('token', data.token);
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        console.warn(' Error de credenciales:', data.message);
+                        alert('Error: ' + data.message);
+                    }
+                } catch (error) {
+                    console.error('Error de red:', error);
+                    alert('No se pudo conectar con el servidor.');
+                }
+            });
+        } else {
+            console.error('No se encontró el formulario en login.html');
+        }
+    }
+
+    // --- LÓGICA DE PROTECCIÓN DEL DASHBOARD ---
+    if (window.location.href.includes('dashboard.html') || window.location.href.includes('workspace.html')) {
+        const token = localStorage.getItem('token');
+        
+        // Si no hay token guardado, lo mandamos al login
+        if (!token) {
+            console.warn('Acceso denegado. Redirigiendo al login...');
+            window.location.href = 'login.html';
+        } else {
+            console.log('Usuario autenticado. Bienvenido a la zona privada.');
+            // (En el futuro, aquí usaremos el token para pedirle al backend la lista de videos de este usuario)
+        }
+    }
+
+    // --- LÓGICA PARA CERRAR SESIÓN ---
+    const logoutBtn = document.getElementById('btnLogout');
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // 1. Destruimos el gafete VIP de la memoria
+            localStorage.removeItem('token');
+            console.log('👋 Sesión cerrada exitosamente');
+            // 2. Lo mandamos de regreso a la pantalla de login
+            window.location.href = 'login.html';
+        });
+    }
