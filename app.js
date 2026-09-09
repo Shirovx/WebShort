@@ -358,3 +358,185 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = 'login.html';
         });
     }
+
+    // --- LÓGICA DE SUBIDA DE VIDEO (Dashboard) ---
+    const dashUploadZone = document.getElementById('dashUploadZone');
+    const videoInput = document.getElementById('videoInput');
+
+    if (dashUploadZone && videoInput) {
+        
+        // 1. Si hacen clic en la zona, abrimos el explorador de archivos
+        dashUploadZone.addEventListener('click', () => {
+            videoInput.click();
+        });
+
+        // 2. Efecto visual al arrastrar un archivo por encima
+        dashUploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault(); // Necesario para permitir el "drop"
+            dashUploadZone.classList.add('is-dragging');
+        });
+
+        dashUploadZone.addEventListener('dragleave', () => {
+            dashUploadZone.classList.remove('is-dragging');
+        });
+
+        // 3. Atrapamos el archivo cuando lo sueltan
+        dashUploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dashUploadZone.classList.remove('is-dragging');
+            
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                handleVideoFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        // 4. Atrapamos el archivo si lo seleccionan desde la ventana de clic
+        videoInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) {
+                handleVideoFile(e.target.files[0]);
+            }
+        });
+
+
+        // Función principal para procesar el archivo atrapado
+        async function handleVideoFile(file) {
+            if (!file.type.startsWith('video/')) {
+                alert('Por favor, selecciona un archivo de video válido (MP4, MOV, WEBM).');
+                return;
+            }
+
+            const maxSize = 100 * 1024 * 1024; 
+            if (file.size > maxSize) {
+                alert('El archivo es demasiado grande para esta prueba. Límite: 100MB.');
+                return;
+            }
+
+            // Cambiamos el texto para que el usuario sepa que está cargando
+            const originalText = dashUploadZone.innerHTML;
+            dashUploadZone.innerHTML = `<div class="has-text-centered"><span class="loader is-size-2 mb-3" style="border-width: 4px; color: #485fc7;"></span><p class="has-text-white mt-3">Subiendo video al servidor...</p></div>`;
+
+            // Empaquetamos el archivo
+            const formData = new FormData();
+            formData.append('video', file);
+
+            try {
+                // Recuperamos el token para demostrar que el usuario tiene permiso
+                const token = localStorage.getItem('token');
+
+                const response = await fetch('http://localhost:5000/api/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Mandamos el gafete VIP
+                        // Nota: NO se pone 'Content-Type': 'multipart/form-data', fetch lo hace solo
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('¡Subida exitosa! El archivo ya está en tu backend.');
+                    console.log('Respuesta del servidor:', data);
+                    // Aquí luego pondremos el código para redirigir al workspace
+                } else {
+                    alert('Error al subir: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+                alert('Fallo la conexión con el servidor.');
+            } finally {
+                // Restauramos la interfaz original
+                dashUploadZone.innerHTML = originalText;
+            }
+        }
+    }
+
+    // --- LÓGICA PARA CARGAR VIDEOS EN EL DASHBOARD ---
+    const videosGrid = document.getElementById('videosGrid');
+
+    if (videosGrid && window.location.href.includes('dashboard.html')) {
+        
+        async function loadUserVideos() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:5000/api/videos', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const videos = await response.json();
+                    renderVideos(videos);
+                } else {
+                    console.error('Error al obtener videos');
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+            }
+        }
+
+        function renderVideos(videos) {
+            videosGrid.innerHTML = ''; // Limpiamos el grid
+
+            if (videos.length === 0) {
+                videosGrid.innerHTML = '<p class="has-text-grey ml-3">Aún no has subido ningún video.</p>';
+                return;
+            }
+
+            videos.forEach(video => {
+                // Formateamos la fecha (ej. "15 Oct 2026")
+                const date = new Date(video.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
+
+                // Construimos la tarjeta HTML inyectando los datos de la base de datos
+                const cardHTML = `
+                <div class="column is-6">
+                    <div class="dash-video-card ready-card" onclick="window.location.href='workspace.html?video=${video._id}'">
+                        <div class="video-thumbnail" style="background-color: #2a2a2a;">
+                            <!-- Botón de eliminar (Preparamos el ID para el futuro) -->
+                            <button class="delete-btn" title="Delete video" data-id="${video._id}" onclick="event.stopPropagation(); deleteVideo('${video._id}');"> 
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                        <div class="p-3 has-background-dark-card">
+                            <div class="is-flex is-justify-content-space-between is-align-items-center mb-1">
+                                <span class="is-size-7 has-text-grey">${date}</span>
+                                <span class="is-size-7 has-text-success">Ready</span>
+                            </div>
+                            <p class="has-text-weight-bold has-text-white is-size-6 is-truncated">${video.originalName}</p>
+                            <a href="workspace.html?video=${video._id}" class="is-size-7 has-text-link mt-2 is-block">Open in Workspace →</a>
+                        </div>
+                    </div>
+                </div>
+                `;
+                videosGrid.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        // Ejecutamos la carga al iniciar la página
+        loadUserVideos();
+        // Función para eliminar el video desde la interfaz
+        window.deleteVideo = async function(videoId) {
+            // Confirmación de seguridad
+            if (!confirm('¿Estás seguro de que quieres eliminar este video? El archivo se borrará para siempre.')) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:5000/api/videos/${videoId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    console.log('Video eliminado con éxito');
+                    loadUserVideos(); 
+                } else {
+                    const data = await response.json();
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error al conectar con el servidor:', error);
+            }
+        };
+    
+    }

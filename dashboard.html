@@ -90,6 +90,9 @@
             <p class="subtitle is-5 has-text-grey mb-6">AI will detect the best moments for clipping</p>
                 <!-- ... zona de subida ... -->
             <div class="dash-upload-zone mt-5" id="dashUploadZone">
+
+                <input type="file" id="videoInput" accept="video/mp4, video/quicktime, video/webm" class="is-hidden">
+
                 <svg class="mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a7a7a" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                 <p class="has-text-white is-size-6 mb-1">Click or drag to upload a video</p>
                 <p class="is-size-7 has-text-grey">MP4, MOV, WEBM up to 3GB</p>
@@ -99,53 +102,13 @@
         </div>
     </section>
 
-    <!-- TUS VIDEOS (Grid) -->
+    <!-- VIDEOS (Grid) -->
     <section class="section pt-0">
         <div class="container is-max-desktop">
             <h2 class="title is-5 has-text-dark mb-4">Your Videos</h2>
 
-            <div class="columns is-multiline">
-                
-                <!-- Tarjeta 1: Detectando Clips (Imagen 3) -->
-                <div class="column is-6">
-                    <div class="dash-video-card detecting-card is-flex is-flex-direction-column is-justify-content-space-between p-4">
-                        <div class="has-text-centered mt-4">
-                            <p class="is-size-7 has-text-grey-light px-4">
-                                💡 Creators who post daily grow 10x faster. We're finding your next week of posts.
-                            </p>
-                        </div>
-                        <div class="is-flex is-align-items-center">
-                            <span class="loader-dots mr-2"></span>
-                            <span class="is-size-7 has-text-grey-light">Detecting clips...</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta 2: Video Listo (Imagen 4) -->
-                <div class="column is-6">
-                    <div class="dash-video-card ready-card" onclick="window.location.href='workspace.html'">
-                        <!-- Imagen de fondo simulada -->
-                        <div class="video-thumbnail" style="background-color: #2a2a2a;">
-                            <span class="badge-clips">2 clips</span>
-                            <!-- Botón Eliminar (Aparece en Hover) -->
-                            <button class="delete-btn" title="Delete video">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                            </button>
-                        </div>
-                        <div class="p-3 has-background-dark-card">
-                            <div class="is-flex is-justify-content-space-between is-align-items-center mb-1">
-                                <span class="is-size-7 has-text-grey">Today</span>
-                                <span class="is-size-7 has-text-warning">Expires in 2d 23h</span>
-                            </div>
-                            <p class="has-text-weight-bold has-text-white is-size-6 is-truncated">Gratitude and Repetition of the Word Now</p>
-                            <p class="is-size-7 has-text-grey mt-1">2 clips detected</p>
-                            <a href="#" class="is-size-7 has-text-link mt-2 is-block">Keep up to 90 days →</a>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="columns is-multiline" id="videosGrid">
             </div>
-        </div>
     </section>
 
     <script src="app.js"></script>
